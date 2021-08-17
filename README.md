@@ -16,7 +16,11 @@ And then run the following command in the root directory:
 python3 main.py
 ```
 
-The server will run on `http://0.0.0.0:8080`
+The server will run on `http://0.0.0.0:8080`, and the documentation is available in `http://0.0.0.0:8080/docs`
+
+## FAQ
+
+If you cannot open `http://0.0.0.0:8080`, please open `localhost:8080`.
 
 ## .env file
 
