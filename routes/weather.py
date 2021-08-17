@@ -1,9 +1,23 @@
+from typing import List
 from fastapi import Body, APIRouter
 from database.database import weather_collection
 from models.weather import WeatherForecast, ResponseModel, ErrorResponseModel
 from datetime import datetime, timedelta, date, time
 
 router = APIRouter()
+
+
+@router.post("/")
+async def add_record(data: List[WeatherForecast] = None):
+    if len(data) == 1:
+        insertOneResult = await weather_collection.insert_one(dict(data[0]))
+        if insertOneResult.inserted_id:
+            return ResponseModel(True, "Successfully added a record")
+    elif len(data) > 1:
+        insertManyResult = await weather_collection.insert_many(list(map(dict, data)))
+        if len(insertManyResult.inserted_ids) > 0:
+            return ResponseModel(True, "Successfully added %s records" % len(data))
+    return ErrorResponseModel("An error occurred", 500, "Cannot create record")
 
 
 @router.get("/")
