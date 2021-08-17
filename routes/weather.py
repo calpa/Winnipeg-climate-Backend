@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import Body, APIRouter
+from fastapi import APIRouter
 from database.database import weather_collection
 from models.weather import WeatherForecast, ResponseModel, ErrorResponseModel
 from datetime import datetime, timedelta, date, time
@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.post("/")
-async def add_record(data: List[WeatherForecast] = None):
+async def add_weather_forecasts(data: List[WeatherForecast] = None):
     if len(data) == 1:
         insertOneResult = await weather_collection.insert_one(dict(data[0]))
         if insertOneResult.inserted_id:
@@ -21,7 +21,9 @@ async def add_record(data: List[WeatherForecast] = None):
 
 
 @router.get("/")
-async def query_weekly_forestcasts(query_date: date = None, time_interval: str = None):
+async def query_weekly_weather_forecasts(
+    query_date: date = None, query_hour: int = None
+):
     try:
         query = {}
         cursor = None
@@ -32,19 +34,12 @@ async def query_weekly_forestcasts(query_date: date = None, time_interval: str =
                 "$gte": temp_date,
                 "$lt": temp_date + timedelta(days=1),
             }
-            if not time_interval:
-                cursor = weather_collection.find(query)
-                async for item in cursor:
-                    res.append(WeatherForecast(**item))
+            if query_hour is not None:
+                query["date_time_local"] = temp_date.replace(hour=query_hour)
 
-            else:
-                query["period_string"] = time_interval
-                item = await weather_collection.find_one(query)
-                res.append(WeatherForecast(**item))
-        else:
-            cursor = weather_collection.find()
-            async for item in cursor:
-                res.append(WeatherForecast(**item))
+        cursor = weather_collection.find(query)
+        async for item in cursor:
+            res.append(WeatherForecast(**item))
 
         if len(res) > 0:
             return ResponseModel(res, "Weekly Forecasts are available")

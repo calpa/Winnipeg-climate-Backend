@@ -29,7 +29,7 @@ class WeatherForecast(BaseModel):
     cloudprecip: Optional[str]
     visibility_other: Optional[str]
     winds: Optional[str]
-    temperature: Optional[str]
+    temperatures: Optional[str]
 
     class Config:
         arbitrary_types_allowed = True
