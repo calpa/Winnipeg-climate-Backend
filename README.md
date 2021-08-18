@@ -34,9 +34,16 @@ MONGO_DETAILS=
 
 https://winnipeg.weatherstats.ca/download.html
 
+## Deployment
+
+Deploy to [Deta](https://deta.sh)
+
+[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy)
+
 ## TODO
 
-Query from weatherstats directly and store in the database
+- Query from weatherstats directly and store in the database
+- Add Security Token
 
 ## Stack
 
