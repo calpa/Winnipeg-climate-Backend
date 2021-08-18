@@ -54,3 +54,28 @@ async def query_weekly_weather_forecasts(
         return ErrorResponseModel(
             "An error occurred", 404, "Weather forecast are not available"
         )
+
+
+@router.get("/available_days")
+async def get_available_days():
+    try:
+        cursor = weather_collection.aggregate(
+            [
+                {
+                    "$group": {
+                        "_id": {
+                            "$dateToString": {
+                                "format": "%Y-%m-%d",
+                                "date": "$date_time_local",
+                            }
+                        }
+                    }
+                }
+            ]
+        )
+        res = await cursor.to_list(length=None)
+
+        return ResponseModel(res, "Available Dates are returned")
+    except Exception as e:
+        print(e)
+        return ErrorResponseModel("An error occurred", 500, "An error occurred")

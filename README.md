@@ -15,7 +15,7 @@ pip3 install -r requirements.txt
 And then run the following command in the root directory:
 
 ```shell
-python3 main.py
+uvicorn main:app --port 8080 --host 0.0.0.0 --reload
 ```
 
 The server will run on `http://0.0.0.0:8080`, and the documentation is available in `http://0.0.0.0:8080/docs`
