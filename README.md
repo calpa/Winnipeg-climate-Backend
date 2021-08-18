@@ -2,7 +2,7 @@
 
 I am interested in looking at the climate in Winnipeg, so I used Python and MongoDB to build up the backend system.
 
-![](https://i.imgur.com/bkmQ6lu.png)
+![](https://i.imgur.com/7ZD0bsG.png)
 
 ## How to start this project?
 
