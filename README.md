@@ -2,6 +2,8 @@
 
 I am interested in looking at the climate in Winnipeg, so I used Python and MongoDB to build up the backend system.
 
+![](https://i.imgur.com/bkmQ6lu.png)
+
 ## How to start this project?
 
 Install the dependencies first.
